@@ -159,7 +159,7 @@ build d
   | r == 5        = Max (build (d-1)) (build (d-1))
   | otherwise     = Cube (build (d-1)) (build (d-1)) (build (d-1))
   where
-    s = rand 10
+    r = rand 10
 
 
 
