@@ -32,10 +32,10 @@ import Prelude hiding (lookup)
 -- 0
 
 assoc :: Int -> String -> [(String, Int)] -> Int
-assoc def key kvs [] = def
-assoc def key (x:xs)
-assoc def key | fst(x) == key = snd(x)
-assoc def key | otherwise = assoc def key xs
+assoc def _ [] = def
+assoc def key ((k,v):xs)
+               | key == k = v
+               | otherwise = assoc def key xs
 
 -- | if fst(x) == key then snd(x)
 -- | else recursion --> assoc def key xs
@@ -64,7 +64,7 @@ removeDuplicates ls = reverse (helper [] ls)
     helper seen []     = seen
     helper seen (x:xs) = helper seen' rest'
       where
-        seen'          = if (x 'elem' seen)
+        seen'          = if elem x seen
                           then seen
                           else x:[] ++ seen
         rest'          = xs
@@ -114,11 +114,11 @@ Thus, the final value will be `(false, <first value for which condition is no lo
 -- 512
 
 wwhile :: (a -> (Bool, a)) -> a -> a
-wwhile f x = if fst(f n)
-      then wwhile f (snd(f n))
-      else snd(f n)
+wwhile f x = if fst(f x)
+      then wwhile f (snd(f x))
+      else snd(f x)
 
--- if the first(f n)---function is true then recursion---the second number become new number
+-- if the first(f x)---function is true then recursion---the second number become new number
 -- else--while first if false--just return second element--number
 
 --------------------------------------------------------------------------------
@@ -163,7 +163,7 @@ The fixpoint of a function `f` is a point at which `f(x) = x`.
 fixpointL :: (Int -> Int) -> Int -> [Int]
 fixpointL f x = if (f (f x) == x)   -- if f x got itself, then meet fixpoint
           then [f x]    -- return the list
-          else [x] ++ (fixpoint f (f x))  -- if not, the number add to the list and resursion happen
+          else [x] ++ (fixpointL f (f x))  -- if not, the number add to the list and resursion happen
 
 -- You should see the following behavior at the prompt:
 
@@ -197,12 +197,13 @@ collatz n
   -}
 
 fixpointW :: (Int -> Int) -> Int -> Int
-fixpointW f x = wwhile wwf x
- where
-   wwf        = if ((f x) == x)
-                then (False, x) -- this is for fiting into the wwhile to tell it time to stop
-                else (True, f x) -- True means wwhile will keep going and (f x) for keep recursion
-
+fixpointW f x = wwhile fun x
+  where
+    fun        = (\x -> let nextnum = f x in (x /= nextnum, nextnum))
+              -- = if ((f x) == x)
+                -- then (False, x) -- this is for fiting into the wwhile to tell it time to stop
+                -- else (True, f x) -- True means wwhile will keep going and (f x) for keep recursion
+ 
 -- >>> fixpointW collatz 1
 -- 1
 -- >>> fixpointW collatz 2

@@ -156,8 +156,8 @@ build d
   | r == 2        = Average (build (d-1)) (build (d-1))
   | r == 3        = Times (build (d-1)) (build (d-1))
   | r == 4        = Thresh (build (d-1)) (build (d-1)) (build (d-1)) (build (d-1))
-  | r == 5        = Max (build (d-1)) (build (d-1))
-  | otherwise     = Cube (build (d-1)) (build (d-1)) (build (d-1))
+  | r == 5        = Average (build (d-1)) (build (d-1))
+  | otherwise     = Times (build (d-1)) (build (d-1))
   where
     r = rand 10
 
