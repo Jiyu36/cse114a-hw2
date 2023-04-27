@@ -66,7 +66,7 @@ removeDuplicates ls = reverse (helper [] ls)
       where
         seen'          = if (x 'elem' seen)
                           then seen
-                          else x:[] ++ seem
+                          else x:[] ++ seen
         rest'          = xs
 
 -- using elem from class
