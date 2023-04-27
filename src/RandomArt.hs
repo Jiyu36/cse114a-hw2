@@ -151,13 +151,13 @@ build 0
   where
     r         = rand 10
 build d
-  | r == 0   = Sine (build (d-1))
-  | r == 1        = Cosine (build (d-1))
-  | r == 2        = Average (build (d-1)) (build (d-1))
-  | r == 3        = Times (build (d-1)) (build (d-1))
-  | r == 4        = Thresh (build (d-1)) (build (d-1)) (build (d-1)) (build (d-1))
-  | r == 5        = Average (build (d-1)) (build (d-1))
-  | otherwise     = Times (build (d-1)) (build (d-1))
+  | r == 1        = build (d-1)
+  | r == 2        = Sine (build (d-1))
+  | r == 3        = Cosine (build (d-1))
+  | r == 4        = Average (build (d-1)) (build (d-1))
+  | r == 5        = Times (build (d-1)) (build (d-1))
+  | r == 6        = Thresh (build (d-1)) (build (d-1)) (build (d-1)) (build (d-1))
+  | otherwise     = Thresh (build (d-1)) (build (d-1)) (build (d-1)) (build (d-1))
   where
     r = rand 10
 
